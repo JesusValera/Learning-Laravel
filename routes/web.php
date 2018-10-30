@@ -15,23 +15,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/users', 'UserController@index');
 
-Route::get('/users', function () {
-    return '<body>Hello users!</body>';
-});
+Route::get('users/new', 'UserController@create');
 
-Route::get('users/new', function () {
-    return 'Creating new user.';
-});
+Route::get('/users/{id}', 'UserController@show')
+    ->where('id', '\d+');
 
-Route::get('/users/{id}', function ($id) {
-    return "Showing details of user with id $id";
-})->where('id', '\d+');
+Route::get('/users/{id}/edit', 'UserController@edit')
+    ->where('id', '\d+');
 
-Route::get('/users/{name}/{nickname?}', function ($name, $nickname = null) {
-    if (!isset($nickname))
-        return "Hello $name without nickname.";
+Route::get('/users/{name}', 'WelcomeUserController@name');
 
-    return "Hello $name whose nickname is $nickname";
-});
+Route::get('/users/{name}/{nickname}', 'WelcomeUserController@nickname');
 
