@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layout')
 
 @section('title', $title)
 
@@ -12,4 +12,9 @@
             <li>No users found.</li>
         @endforelse
     </ul>
+@endsection
+
+@section('sidebar')
+    @parent
+    <h2>Lololo</h2>
 @endsection

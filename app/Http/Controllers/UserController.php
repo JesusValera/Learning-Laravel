@@ -20,7 +20,7 @@ class UserController extends Controller
             ];
         }
 
-        return view('users', [
+        return view('users.index', [
             'users' => $users,
             'title' => 'Users list',
         ]);
@@ -28,20 +28,20 @@ class UserController extends Controller
 
     public function show(int $id)
     {
-        return view('users_show', [
+        return view('users.show', [
             'id' => $id,
         ]);
     }
 
     public function edit(int $id)
     {
-        return view('users_edit', [
+        return view('users.edit', [
             'id' => $id,
         ]);
     }
 
     public function create()
     {
-        return view('users_create');
+        return view('users.create');
     }
 }
