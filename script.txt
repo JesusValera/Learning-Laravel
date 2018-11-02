@@ -17,3 +17,23 @@
 * Create new test class.
  php artisan make:test [ClassName]Test
 
+// DB operations.
+ 1. When some add a new property to a migration.
+ php artisan migrate:reset
+ 2. Run artisan migrate to migrate all tables.
+ php artisan migrate
+
+ 1.2. Run last two sentences together in one.
+ php artisan migrate:refresh
+-- THOSE COMMANDS REMOVE ALL DB DATA. --
+
+ 1.- Creating a new migration to save data.
+ php artisan make:migration [descriptive_name]
+ 2.- Run artisan migrate to migrate new config.
+ php artisan migrate
+
+ 3. The next command rollback the last migration batch.
+ php artisan migrate:rollback
+ 4. And then, run again migrate command.
+ php artisan migrate
+
