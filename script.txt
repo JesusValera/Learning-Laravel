@@ -37,3 +37,16 @@
  4. And then, run again migrate command.
  php artisan migrate
 
+-----------------------
+ Seeders-
+ 1. Create seeder.
+ php artisan make:seeder [seeder name]
+ 2. Update seeders.
+ composer dump-autoload
+ 3. Run seeders.
+ php artisan db:seed
+
+ * Mix migrate:fresh && db:seed
+ php artisan migrate:fresh --seed
+
+-----------------------
