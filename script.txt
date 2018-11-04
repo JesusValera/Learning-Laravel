@@ -44,9 +44,9 @@
  2. Update seeders.
  composer dump-autoload
  3. Run seeders.
- php artisan db:seed
+ php artisan db:seed {-class=ClassSeeder}
 
- * Mix migrate:fresh && db:seed
+ * Mix: migrate:fresh && db:seed
  php artisan migrate:fresh --seed
 
 -----------------------

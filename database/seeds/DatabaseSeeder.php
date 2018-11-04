@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->truncateTables(['professions', 'users']);
 
-        // $this->call(UsersTableSeeder::class);
         $this->call(ProfessionSeeder::class);
         $this->call(UserSeeder::class);
     }
@@ -23,7 +22,7 @@ class DatabaseSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
 
         foreach ($tables as $table) {
-            DB::table($table)->truncate();
+            DB::table($table)->truncate(); // Remove all entries from the table.
         }
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
