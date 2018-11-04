@@ -50,3 +50,7 @@
  php artisan migrate:fresh --seed
 
 -----------------------
+
+ Eloquent -> Create model
+ php artisan make:model [MODEL_NAME]
+

@@ -1,5 +1,8 @@
 <?php
 
+use App\Profession;
+use App\User;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,11 +17,20 @@ class UserSeeder extends Seeder
     {
         //$professions = DB::select('SELECT id FROM professions WHERE title = ? LIMIT 0,1', ["Back-end developer"]);
         //dd($professions);
+
         $professionId = DB::table('professions')
             ->select('id')
             ->where('title', 'LIKE', 'UI%')
             ->value('id');
-        //dd($professionId);
+
+        $professionId2 = Profession::value('id');
+
+        DB::insert('INSERT INTO users (name, email, password, profession_id) VALUES (:name, :email, :password, :profession_id)', [
+            'name' => 'Juan Valera',
+            'email' => 'juan@example.com',
+            'password' => bcrypt('password2'),
+            'profession_id' => $professionId,
+        ]);
 
         DB::table('users')->insert([
             'name' => 'Jesus Valera',
@@ -27,11 +39,11 @@ class UserSeeder extends Seeder
             'profession_id' => $professionId,
         ]);
 
-        DB::insert('INSERT INTO users (name, email, password, profession_id) VALUES (:name, :email, :password, :profession_id)', [
-            'name' => 'Juan Valera',
-            'email' => 'juan@example.com',
-            'password' => bcrypt('password2'),
-            'profession_id' => $professionId,
+        User::create([
+            'name' => 'Jose Valera',
+            'email' => 'jose@example.com',
+            'password' => bcrypt('password3'),
+            'profession_id' => $professionId2,
         ]);
 
     }
