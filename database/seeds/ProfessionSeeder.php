@@ -37,6 +37,8 @@ class ProfessionSeeder extends Seeder
             'title' => 'UI tester',
         ]);
 
-        Profession::where('title', 'LIKE', 'Front-end developer')->delete();
+        //Profession::where('title', 'LIKE', 'Front-end developer')->delete();
+
+        factory(Profession::class, 5)->create();
     }
 }

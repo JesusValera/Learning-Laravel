@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             ->where('title', 'LIKE', 'UI%')
             ->value('id');
 
-        $professionId2 = Profession::value('id');
+        $professionId2 = Profession::all()->last()->id;
 
         DB::insert('INSERT INTO users (name, email, password, profession_id) VALUES (:name, :email, :password, :profession_id)', [
             'name' => 'Juan Valera',
@@ -46,5 +46,11 @@ class UserSeeder extends Seeder
             'profession_id' => $professionId2,
         ]);
 
+        // Factory -> create user with random values.
+        factory(User::class)->create([
+            'profession_id' => $professionId2,
+        ]);
+
+        factory(User::class, 10)->create();
     }
 }

@@ -38,7 +38,7 @@
  php artisan migrate
 
 -----------------------
- Seeders-
+ Seeders (insert data into db for migrations)-
  1. Create seeder.
  php artisan make:seeder [seeder name]
  2. Update seeders.
@@ -51,6 +51,15 @@
 
 -----------------------
 
- Eloquent -> Create model
+ * Eloquent -> Create model
  php artisan make:model [MODEL_NAME]
+
+ * Tinker console ->Shell where you can execute Eloquent methods.
+ php artisan tinker
+
+ * Make factory.
+ php artisan make:factory Profession
+
+ * Generate a model with a factory and a migration.
+ php artisan make:model [NAME] -mf
 
