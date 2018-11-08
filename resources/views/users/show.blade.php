@@ -1,5 +1,7 @@
 @extends('layout')
 
 @section('content')
-    <p>Showing details of user with id {{ $id }}</p>
+    <p>Username: {{ $user->name }}</p>
+
+    <a href="{{ route('user_index') }}">Go back</a>
 @endsection

@@ -25,11 +25,12 @@ class UserSeeder extends Seeder
 
         $professionId2 = Profession::all()->last()->id;
 
-        DB::insert('INSERT INTO users (name, email, password, profession_id) VALUES (:name, :email, :password, :profession_id)', [
+        DB::insert('INSERT INTO users (name, email, password, profession_id, website) VALUES (:name, :email, :password, :profession_id, :website)', [
             'name' => 'Juan Valera',
             'email' => 'juan@example.com',
             'password' => bcrypt('password2'),
             'profession_id' => $professionId,
+            'website' => 'http://juan.com',
         ]);
 
         DB::table('users')->insert([

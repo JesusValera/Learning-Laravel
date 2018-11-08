@@ -15,14 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/users', [
-    'as' => 'user_index',
-    'uses' => 'UserController@index'
-]);
+Route::get('/users', 'UserController@index')
+    ->name('user_index');
 
 Route::get('users/new', 'UserController@create');
 
 Route::get('/users/{id}', 'UserController@show')
+    ->name('user_show')
     ->where('id', '\d+');
 
 Route::get('/users/{id}/edit', 'UserController@edit')
