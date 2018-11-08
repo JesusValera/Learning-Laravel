@@ -20,9 +20,9 @@ Route::get('/users', 'UserController@index')
 
 Route::get('users/new', 'UserController@create');
 
-Route::get('/users/{id}', 'UserController@show')
+Route::get('/users/{user}', 'UserController@show')
     ->name('user_show')
-    ->where('id', '\d+');
+    ->where('user', '\d+');
 
 Route::get('/users/{id}/edit', 'UserController@edit')
     ->where('id', '\d+');
