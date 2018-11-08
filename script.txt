@@ -29,7 +29,7 @@
 
  1.- Creating a new migration to save data.
  php artisan make:migration [descriptive_name]
- 2.- Run artisan migrate to migrate new config.
+ 2.- Run artisan migrate to migrate new migrations.
  php artisan migrate
 
  3. The next command rollback the last migration batch.
@@ -62,4 +62,3 @@
 
  * Generate a model with a factory and a migration.
  php artisan make:model [NAME] -mf
-

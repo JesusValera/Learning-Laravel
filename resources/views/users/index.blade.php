@@ -3,11 +3,11 @@
 @section('title', $title)
 
 @section('content')
-    <h1>Users</h1>
+    <h1>Users list</h1>
 
     <ul>
         @forelse($users as $user)
-            <li>{{ $user }}</li>
+            <li>{{ $user->name }}, ({{ $user->email }}) </li>
         @empty
             <li>No users found.</li>
         @endforelse
@@ -15,6 +15,5 @@
 @endsection
 
 @section('sidebar')
-    @parent
-    <h2>Lololo</h2>
+    <h3>@parent Subheader</h3>
 @endsection

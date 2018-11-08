@@ -2,27 +2,36 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UsersModuleTest extends TestCase
 {
+    use RefreshDatabase;
 
     function testItLoadsTheUsersListPage()
     {
+        factory(User::class)->create([
+            'name' => 'Maria',
+            'website' => 'http://mariawebsite.com/',
+        ]);
+        factory(User::class)->create([
+            'name' => 'Ana',
+        ]);
+
         $this->get('/users')
             ->assertStatus(200)
             ->assertSee('Users list')
-            ->assertSee('Jesus')
-            ->assertSee('Juan')
-            ->assertSee('Jose');
+            ->assertSee('Maria')
+            ->assertSee('Ana');
     }
 
     /** @test  */
     function itLoadsTheEmptyUsersListPage()
     {
-        $this->get('/users?empty')
+        $this->get('/users')
             ->assertStatus(200)
             ->assertSee('Users list')
             ->assertSee('No users found');
