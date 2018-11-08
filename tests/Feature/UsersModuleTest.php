@@ -28,7 +28,7 @@ class UsersModuleTest extends TestCase
             ->assertSee('Ana');
     }
 
-    /** @test  */
+    /** @test */
     function itLoadsTheEmptyUsersListPage()
     {
         $this->get('/users')
@@ -38,7 +38,7 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
-    function itDisplayTheUserDetailsPage()
+    function itDisplaysTheUserDetailsPage()
     {
         $user = factory(User::class)->create([
             'name' => 'Jesus',
@@ -50,11 +50,19 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
-    function itEditTheUser()
+    function itDisplays404ErrorIfUserIsNotFound()
+    {
+        $this->get('/users/999')
+        ->assertStatus(404)
+        ->assertSee('User not found');
+    }
+
+    /** @test */
+    function itEditsTheUser()
     {
         $this->get('/users/5/edit')
             ->assertStatus(200)
-        ->assertSee('Editing the user with id 5');
+            ->assertSee('Editing the user with id 5');
     }
 
     /** @test */
@@ -62,7 +70,7 @@ class UsersModuleTest extends TestCase
     {
         $this->get('/users/Jesus/edit')
             ->assertStatus(200)
-        ->assertSee('Hello Jesus whose nickname is edit');
+            ->assertSee('Hello Jesus whose nickname is edit');
     }
 
     /** @test */
