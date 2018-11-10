@@ -76,8 +76,6 @@ class UsersModuleTest extends TestCase
     /** @test */
     function itLoadsTheNewUserPage()
     {
-        //$this->withoutExceptionHandling();
-
         $this->get('/users/create')
             ->assertStatus(200)
             ->assertSee('Creating new user');
@@ -111,10 +109,85 @@ class UsersModuleTest extends TestCase
                 'name' => 'The name field is required'
             ]);
 
-        //$this->assertEquals(0, User::count());
         $this->assertDatabaseMissing('users', [
             'email' => 'noname@example.com',
         ]);
+    }
+
+    /** @test */
+    function theEmailIsRequired()
+    {
+        $this->from('/users/create')->post('/users/store', [
+            'name' => 'Andrea',
+            'email' => '',
+            'password' => '123456',
+        ])->assertRedirect(route('user_create'))
+            ->assertSessionHasErrors([
+                'email' => 'The email field is required.'
+            ]);
+
+        $this->assertDatabaseMissing('users', [
+            'name' => 'Andrea',
+        ]);
+    }
+
+    /** @test */
+    function theEmailIsUnique()
+    {
+        factory(User::class)->create([
+            'name' => 'Jesus',
+            'email' => 'jesus@example.com'
+        ]);
+
+        $this->from('/users/create')->post('/users/store', [
+            'name' => 'Jesus',
+            'email' => 'jesus@example.com',
+            'password' => '123456',
+        ])->assertRedirect(route('user_create'))
+            ->assertSessionHasErrors([
+                'email' => 'The email has already been taken.'
+            ]);
+
+        $this->assertEquals(1, User::count());
+    }
+    /** @test */
+    function theEmailIsValid()
+    {
+        $this->from('/users/create')->post('/users/store', [
+            'name' => 'Jesus',
+            'email' => 'jesus',
+            'password' => '123456',
+        ])->assertRedirect(route('user_create'))
+            ->assertSessionHasErrors(['email']);
+    }
+
+    /** @test */
+    function thePasswordIsRequired()
+    {
+        $this->from('/users/create')->post('/users/store', [
+            'name' => 'Andrea',
+            'email' => 'andrea@example.com',
+            'password' => '',
+        ])->assertRedirect(route('user_create'))
+            ->assertSessionHasErrors([
+                'password' => 'The password field is required.'
+            ]);
+
+        $this->assertEquals(0, User::count());
+    }
+    /** @test */
+    function thePasswordIsGreaterThan6Chars()
+    {
+        $this->from('/users/create')->post('/users/store', [
+            'name' => 'Andrea',
+            'email' => 'andrea@example.com',
+            'password' => '12345',
+        ])->assertRedirect(route('user_create'))
+            ->assertSessionHasErrors([
+                'password' => 'The password must be at least 6 characters.'
+            ]);
+
+        $this->assertEquals(0, User::count());
     }
 
 }
