@@ -17,6 +17,12 @@
 * Create new test class.
  php artisan make:test [ClassName]Test
 
+* Run tests.
+ phpunit
+
+* Run a specific test.
+ phpunit --filter [TEST_METHOD_NAME]
+
 // DB operations.
  1. When some add a new property to a migration.
  php artisan migrate:reset

@@ -18,11 +18,15 @@ Route::get('/', function () {
 Route::get('/users', 'UserController@index')
     ->name('user_index');
 
-Route::get('users/new', 'UserController@create');
-
 Route::get('/users/{user}', 'UserController@show')
-    ->name('user_show')
-    ->where('user', '\d+');
+    ->where('user', '\d+')
+    ->name('user_show');
+
+Route::get('users/create', 'UserController@create')
+    ->name('user_create');
+
+Route::post('users/store', 'UserController@store')
+    ->name('user_store');
 
 Route::get('/users/{id}/edit', 'UserController@edit')
     ->where('id', '\d+');
@@ -30,4 +34,3 @@ Route::get('/users/{id}/edit', 'UserController@edit')
 Route::get('/users/{name}', 'WelcomeUserController@name');
 
 Route::get('/users/{name}/{nickname}', 'WelcomeUserController@nickname');
-

@@ -53,8 +53,8 @@ class UsersModuleTest extends TestCase
     function itDisplays404ErrorIfUserIsNotFound()
     {
         $this->get('/users/999')
-        ->assertStatus(404)
-        ->assertSee('User not found');
+            ->assertStatus(404)
+            ->assertSee('User not found');
     }
 
     /** @test */
@@ -78,9 +78,43 @@ class UsersModuleTest extends TestCase
     {
         //$this->withoutExceptionHandling();
 
-        $this->get('/users/new')
+        $this->get('/users/create')
             ->assertStatus(200)
             ->assertSee('Creating new user');
+    }
+
+    /** @test */
+    function itCreatesANewUser()
+    {
+        $this->post('/users/store', [
+            'name' => 'Angel',
+            'email' => 'angel@example.com',
+            'password' => '123456',
+        ])->assertRedirect(route('user_index'));
+
+        $this->assertCredentials([
+            'name' => 'Angel',
+            'email' => 'angel@example.com',
+            'password' => '123456'
+        ]);
+    }
+
+    /** @test */
+    function theNameIsRequired()
+    {
+        $this->from('/users/create')->post('/users/store', [
+            'name' => '',
+            'email' => 'noname@example.com',
+            'password' => '123456',
+        ])->assertRedirect(route('user_create'))
+            ->assertSessionHasErrors([
+                'name' => 'The name field is required'
+            ]);
+
+        //$this->assertEquals(0, User::count());
+        $this->assertDatabaseMissing('users', [
+            'email' => 'noname@example.com',
+        ]);
     }
 
 }

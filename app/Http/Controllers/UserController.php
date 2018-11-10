@@ -32,4 +32,24 @@ class UserController extends Controller
     {
         return view('users.create');
     }
+
+    public function store()
+    {
+        $data = request()->validate([
+            'name' => 'required',
+            /*'email' => 'required|email|unique:users',
+            'password' => 'required',*/
+        ], [
+            'name.required' => 'The name field is required',
+        ]);
+        //dd($data);
+
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+
+        return redirect()->route('user_index');
+    }
 }
