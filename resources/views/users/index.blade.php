@@ -5,6 +5,10 @@
 @section('content')
     <h1>Users list</h1>
 
+    <p>
+        <a href="{{ route('user.create') }}" class="btn btn-primary">New user</a>
+    </p>
+
     @if(count($users) == 0)
         No users found.
     @else
@@ -23,7 +27,7 @@
                     <th scope="row">{{ $user->id }}</th>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td><a href="{{ route('user_show', [$user->id]) }}">Details</a></td>
+                    <td><a href="{{ route('user.show', [$user->id]) }}">Details</a></td>
                 </tr>
             @endforeach
             </tbody>

@@ -11,26 +11,25 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/users', 'UserController@index')
-    ->name('user_index');
+Route::get('/', 'UserController@index')
+    ->name('user.index');
 
 Route::get('/users/{user}', 'UserController@show')
     ->where('user', '\d+')
-    ->name('user_show');
+    ->name('user.show');
 
-Route::get('users/create', 'UserController@create')
-    ->name('user_create');
+Route::get('/users/create', 'UserController@create')
+    ->name('user.create');
 
-Route::post('users/store', 'UserController@store')
-    ->name('user_store');
+Route::post('/users', 'UserController@store')
+    ->name('user.store');
 
-Route::get('/users/{id}/edit', 'UserController@edit')
-    ->where('id', '\d+');
+Route::get('/users/{user}/edit', 'UserController@edit')
+    ->name('user.edit');
 
-Route::get('/users/{name}', 'WelcomeUserController@name');
+Route::put('/users/{user}', 'UserController@update')
+    ->name('user.update');
 
-Route::get('/users/{name}/{nickname}', 'WelcomeUserController@nickname');
+//Route::get('/users/{name}', 'WelcomeUserController@name');
+
+//Route::get('/users/{name}/{nickname}', 'WelcomeUserController@nickname');
