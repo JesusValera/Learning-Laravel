@@ -45,7 +45,7 @@ class UsersModuleTest extends TestCase
             'name' => 'Jesus',
         ]);
 
-        $this->get('/users/' . $user->id)
+        $this->get(route('user.show', $user->id))
             ->assertStatus(200)
             ->assertSee($user->name);
     }
@@ -53,7 +53,7 @@ class UsersModuleTest extends TestCase
     /** @test */
     function itDisplays404ErrorIfUserIsNotFound()
     {
-        $this->get('/users/999')
+        $this->get(route('user.show', 999))
             ->assertStatus(404)
             ->assertSee('User not found');
     }
@@ -61,7 +61,7 @@ class UsersModuleTest extends TestCase
     /** @test */
     function itLoadsTheNewUserPage()
     {
-        $this->get('/users/create')
+        $this->get(route('user.create'))
             ->assertStatus(200)
             ->assertSee('Creating new user');
     }
@@ -69,7 +69,7 @@ class UsersModuleTest extends TestCase
     /** @test */
     function itCreatesANewUser()
     {
-        $this->post('/users', [
+        $this->post(route('user.store'), [
             'name' => 'Angel',
             'email' => 'angel@example.com',
             'password' => '123456',
@@ -85,7 +85,7 @@ class UsersModuleTest extends TestCase
     /** @test */
     function theNameIsRequired()
     {
-        $this->from('/users/create')->post(route('user.store'), [
+        $this->from(route('user.create'))->post(route('user.store'), [
             'name' => '',
             'email' => 'noname@example.com',
             'password' => '123456',
@@ -102,7 +102,7 @@ class UsersModuleTest extends TestCase
     /** @test */
     function theEmailIsRequired()
     {
-        $this->from('/users/create')->post(route('user.store'), [
+        $this->from(route('user.create'))->post(route('user.store'), [
             'name' => 'Andrea',
             'email' => '',
             'password' => '123456',
@@ -124,7 +124,7 @@ class UsersModuleTest extends TestCase
             'email' => 'jesus@example.com'
         ]);
 
-        $this->from('/users/create')->post(route('user.store'), [
+        $this->from(route('user.create'))->post(route('user.store'), [
             'name' => 'Jesus',
             'email' => 'jesus@example.com',
             'password' => '123456',
@@ -139,7 +139,7 @@ class UsersModuleTest extends TestCase
     /** @test */
     function theEmailIsValid()
     {
-        $this->from('/users/create')->post(route('user.store'), [
+        $this->from(route('user.create'))->post(route('user.store'), [
             'name' => 'Jesus',
             'email' => 'jesus',
             'password' => '123456',
@@ -150,7 +150,7 @@ class UsersModuleTest extends TestCase
     /** @test */
     function thePasswordIsRequired()
     {
-        $this->from('/users/create')->post(route('user.store'), [
+        $this->from(route('user.create'))->post(route('user.store'), [
             'name' => 'Andrea',
             'email' => 'andrea@example.com',
             'password' => '',
@@ -165,7 +165,7 @@ class UsersModuleTest extends TestCase
     /** @test */
     function thePasswordIsGreaterThan6Chars()
     {
-        $this->from('/users/create')->post(route('user.store'), [
+        $this->from(route('user.create'))->post(route('user.store'), [
             'name' => 'Andrea',
             'email' => 'andrea@example.com',
             'password' => '12345',
@@ -182,7 +182,7 @@ class UsersModuleTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->get("/users/{$user->id}/edit")
+        $this->get(route('user.edit', $user->id))
             ->assertStatus(200)
             ->assertViewIs('users.edit')
             ->assertSee('Edit user')
@@ -197,7 +197,7 @@ class UsersModuleTest extends TestCase
         $user = factory(User::class)->create();
         $this->withExceptionHandling();
 
-        $this->put("/users/{$user->id}", [
+        $this->put(route('user.show', $user->id), [
             'name' => 'User updated!',
             'email' => 'user_updated@example.com',
             'password' => '123456',
@@ -217,8 +217,8 @@ class UsersModuleTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        $this->from("/users/{$user->id}/edit")
-            ->put("/users/{$user->id}", [
+        $this->from(route('user.edit', $user->id))
+            ->put(route('user.show', $user->id), [
                 'name' => '',
                 'email' => 'ana@example.com',
                 'password' => '123456',
@@ -237,8 +237,8 @@ class UsersModuleTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        $this->from("/users/{$user->id}/edit")
-            ->put("/users/{$user->id}", [
+        $this->from(route('user.edit', $user->id))
+            ->put(route('user.show', $user->id), [
                 'name' => 'Susana',
                 'email' => '',
                 'password' => '123456',
@@ -253,23 +253,20 @@ class UsersModuleTest extends TestCase
     /** @test */
     function theEmailIsUniqueWhenUpdatingTheUser()
     {
-        self::markTestIncomplete();
-        return;
+        $randomUser = factory(User::class)->create();
 
-        $user = factory(User::class)->create([
+        factory(User::class)->create([
             'name' => 'Jesus',
             'email' => 'jesus@example.com'
         ]);
 
-        $this->from("/users/{$user->id}/edit")
-            ->put("/users/{$user->id}", [
-                'name' => 'Jesus',
+        $this->from(route('user.edit', $randomUser->id))
+            ->put(route('user.update', $randomUser->id), [
                 'email' => 'jesus@example.com',
-                'password' => '123456',
-            ])->assertRedirect(route('user.edit', $user))
+            ])->assertRedirect(route('user.edit', $randomUser))
             ->assertSessionHasErrors(['email']);
 
-        $this->assertEquals(1, User::count());
+        $this->assertEquals(2, User::count());
     }
 
     /** @test */
@@ -277,8 +274,8 @@ class UsersModuleTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $this->from("/users/{$user->id}/edit")
-            ->put("/users/{$user->id}", [
+        $this->from(route('user.edit', $user->id))
+            ->put(route('user.show', $user->id), [
                 'name' => 'notValidEmail',
                 'email' => 'not-valid-email',
                 'password' => '12345',
@@ -291,6 +288,26 @@ class UsersModuleTest extends TestCase
     }
 
     /** @test */
+    function theEmailCanStayTheSameWhenUpdatingTheUser()
+    {
+        $user = factory(User::class)->create([
+            'email' => 'marta@example.com',
+        ]);
+
+        $this->from(route('user.edit', $user->id))
+            ->put(route('user.show', $user->id), [
+                'name' => 'Marta',
+                'email' => 'marta@example.com',
+                'password' => '123456',
+            ])->assertRedirect(route('user.show', $user));
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'Marta',
+            'email' => 'marta@example.com',
+        ]);
+    }
+
+    /** @test */
     function thePasswordIsOptionalWhenUpdatingTheUser()
     {
         $oldPassword = 'old_pass';
@@ -299,8 +316,8 @@ class UsersModuleTest extends TestCase
             'password' => bcrypt($oldPassword),
         ]);
 
-        $this->from("/users/{$user->id}/edit")
-            ->put("/users/{$user->id}", [
+        $this->from(route('user.edit', $user->id))
+            ->put(route('user.show', $user->id), [
                 'name' => 'Jesus',
                 'email' => 'jesus@example.com',
                 'password' => '',
