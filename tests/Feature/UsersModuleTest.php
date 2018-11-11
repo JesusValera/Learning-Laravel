@@ -63,7 +63,7 @@ class UsersModuleTest extends TestCase
     {
         $this->get(route('users.create'))
             ->assertStatus(200)
-            ->assertSee('Creating new user');
+            ->assertSee('Create new user');
     }
 
     /** @test */

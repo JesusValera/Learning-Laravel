@@ -3,11 +3,13 @@
 @section('title', $title)
 
 @section('content')
-    <h1>Users list</h1>
 
-    <p>
-        <a href="{{ route('users.create') }}" class="btn btn-primary">New user</a>
-    </p>
+    <div class="d-flex justify-content-between align-items-end mb-2">
+        <h1 class="pb-1">Users list</h1>
+
+        <p><a href="{{ route('users.create') }}" class="btn btn-primary">New user</a>
+        </p>
+    </div>
 
     @if(count($users) == 0)
         No users found.
@@ -18,7 +20,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
-                <th scope="col"></th>
+                <th scope="col">Options</th>
             </tr>
             </thead>
             <tbody>
@@ -28,12 +30,14 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        <a href="{{ route('users.show', [$user->id]) }}">Details</a>
-                        <a href="{{ route('users.edit', [$user->id]) }}">Edit</a>
                         <form action="{{ route('users.destroy', $user) }}" method="post">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
-                            <button type="submit">Delete</button>
+                            <a href="{{ route('users.show', [$user->id]) }}" class="btn btn-link"><span
+                                        class="oi oi-eye"></span></a>
+                            <a href="{{ route('users.edit', [$user->id]) }}" class="btn btn-link"><span
+                                        class="oi oi-pencil"></span></a>
+                            <button type="submit" class="btn btn-link"><span class="oi oi-trash"></span></button>
                         </form>
                     </td>
                 </tr>
@@ -41,8 +45,4 @@
             </tbody>
         </table>
     @endif
-@endsection
-
-@section('sidebar')
-    <h3>@parent Subheader</h3>
 @endsection
