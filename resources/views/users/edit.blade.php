@@ -18,7 +18,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('user.update', $user->id) }}">
+    <form method="post" action="{{ route('users.update', $user->id) }}">
         {{ method_field('PUT') }}
         {{ csrf_field() }}
 
@@ -36,6 +36,6 @@
 
     <br>
     <p>
-        <a href="{{ route('user.index') }}">Go back</a>
+        <a href="{{ route('users.index') }}">Go back</a>
     </p>
 @endsection

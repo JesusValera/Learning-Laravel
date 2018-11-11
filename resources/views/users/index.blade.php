@@ -6,7 +6,7 @@
     <h1>Users list</h1>
 
     <p>
-        <a href="{{ route('user.create') }}" class="btn btn-primary">New user</a>
+        <a href="{{ route('users.create') }}" class="btn btn-primary">New user</a>
     </p>
 
     @if(count($users) == 0)
@@ -27,7 +27,15 @@
                     <th scope="row">{{ $user->id }}</th>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td><a href="{{ route('user.show', [$user->id]) }}">Details</a></td>
+                    <td>
+                        <a href="{{ route('users.show', [$user->id]) }}">Details</a>
+                        <a href="{{ route('users.edit', [$user->id]) }}">Edit</a>
+                        <form action="{{ route('users.destroy', $user) }}" method="post">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

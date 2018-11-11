@@ -16,7 +16,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('user.store') }}">
+    <form method="post" action="{{ route('users.store') }}">
         {{ csrf_field() }}
         <label for="name">Name:</label>
         <input type="text" name="name" id="name" value="{{ old('name') }}">
@@ -31,6 +31,6 @@
     </form>
 
     <p>
-        <a href="{{ route('user.index') }}">Go back</a>
+        <a href="{{ route('users.index') }}">Go back</a>
     </p>
 @endsection

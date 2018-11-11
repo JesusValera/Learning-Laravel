@@ -12,23 +12,26 @@
 */
 
 Route::get('/', 'UserController@index')
-    ->name('user.index');
+    ->name('users.index');
 
 Route::get('/users/{user}', 'UserController@show')
     ->where('user', '\d+')
-    ->name('user.show');
+    ->name('users.show');
 
 Route::get('/users/create', 'UserController@create')
-    ->name('user.create');
+    ->name('users.create');
 
 Route::post('/users', 'UserController@store')
-    ->name('user.store');
+    ->name('users.store');
 
 Route::get('/users/{user}/edit', 'UserController@edit')
-    ->name('user.edit');
+    ->name('users.edit');
 
 Route::put('/users/{user}', 'UserController@update')
-    ->name('user.update');
+    ->name('users.update');
+
+Route::delete('/users/{user}', 'UserController@destroy')
+    ->name('users.destroy');
 
 //Route::get('/users/{name}', 'WelcomeUserController@name');
 
